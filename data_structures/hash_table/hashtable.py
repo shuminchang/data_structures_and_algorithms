@@ -18,11 +18,15 @@ class HashTable:
 		# self.capacity = capacity
 		# self.pairs = capacity * [None]
 		# self.pairs = capacity * [BLANK]
-		self._pairs = capacity * [None]
+		# self._slots = capacity * [None]
+		if capacity < 1:
+			raise ValueError("Capacity must be a positive number")
+		self._slots = capacity * [None]
 
 	def __len__(self):
 		# return len(self.pairs)
-		return len(self._pairs)
+		# return len(self._slots)
+		return len(self.pairs)
 
 	"""
 	Insert a Key-Value Pair
@@ -40,7 +44,7 @@ class HashTable:
 		# # # self.pairs[self._index(key)] = value
 		# # self.pairs[self._index(key)] = (key, value)
 		# self.pairs[self._index(key)] = Pair(key, value)
-		self._pairs[self._index(key)] = Pair(key, value)
+		self._slots[self._index(key)] = Pair(key, value)
 
 	"""
 	Find a Value by Key
@@ -57,7 +61,7 @@ class HashTable:
 		# 	raise KeyError(key)
 		# return value
 		# pair = self.pairs[self._index(key)]
-		pair = self._pairs[self._index(key)]
+		pair = self._slots[self._index(key)]
 		if pair is None:
 			raise KeyError(key)
 		# return pair[1]
@@ -90,7 +94,7 @@ class HashTable:
 		if key in self:
 			# self[key] = BLANK
 			# self.pairs[self._index(key)] = None
-			self._pairs[self._index(key)] = None
+			self._slots[self._index(key)] = None
 			"""
 			- You can't use brackets syntax because this would result in wrapping whatever sentinel value you chose in an unnecessary tuple.
 			- You must use an explicit assignment statement here to avoid needlessly complicated logic down the road.
@@ -99,7 +103,9 @@ class HashTable:
 			raise KeyError(key)
 
 	def _index(self, key):
-		return hash(key) % len(self)
+		# # return hash(key) % len(self)
+		# return hash(key) % len(self._slots)
+		return hash(key) % self.capacity
 
 	"""
 	Update the Value of an Existing Pair
@@ -115,9 +121,9 @@ class HashTable:
 	"""
 	@property
 	def pairs(self):
-		# # return self._pairs.copy()
-		# return [pair for pair in self._pairs if pair]
-		return {pair for pair in self._pairs if pair}
+		# # return self._slots.copy()
+		# return [pair for pair in self._slots if pair]
+		return {pair for pair in self._slots if pair}
 
 	@property
 	def values(self):
@@ -126,3 +132,10 @@ class HashTable:
 	@property
 	def keys(self):
 		return {pair.key for pair in self.pairs}
+
+	"""
+	Report the Hash Table's Length
+	"""
+	@property
+	def capacity(self):
+		return len(self._slots)
