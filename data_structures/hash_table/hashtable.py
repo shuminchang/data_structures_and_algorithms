@@ -146,3 +146,27 @@ class HashTable:
 	"""
 	def __iter__(self):
 		yield from self.keys
+
+	"""
+	Represent the Hash Table in Text
+		- !r: enforce calling repr() instead of str()
+			- repr(): convert object to string, return a valid piece of python code that you can evaluate to recreate the original object.
+			- str(): convert object to string, return human-friendly text
+	"""
+	def __str__(self):
+		pairs = []
+		for key, value in self.pairs:
+			pairs.append(f"{key!r}: {value!r}")
+		return "{" + ", ".join(pairs) + "}"
+
+	# cls
+	@classmethod
+	def from_dict(cls, dictionary, capacity=None):
+		hash_table = cls(capacity or len(dictionary) * 10) # short-circuit evaluation of Boolean expressions
+		for key, value in dictionary.items():
+			hash_table[key] = value
+		return hash_table
+
+	def __repr__(self):
+		cls = self.__class__.__name__
+		return f"{cls}.from_dict({str(self)})"
