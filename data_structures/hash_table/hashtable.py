@@ -139,3 +139,10 @@ class HashTable:
 	@property
 	def capacity(self):
 		return len(self._slots)
+
+	"""
+	Make the Hash Table Iterable
+		- generator iterator
+	"""
+	def __iter__(self):
+		yield from self.keys
