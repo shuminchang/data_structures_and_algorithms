@@ -1,62 +1,63 @@
-class Node():
-    def __init__(self, data):
-        self.data = data
+class Node:
+    def __init__(self, value):
+        self.value = value
         self.next = None
-
-class LinkedList():
+        
+class LinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
         self.length = 0
-
-    def add(self, data):
-        new_node = Node(data)
+        
+    def __str__(self):
+        return str(self.__dict__)
+        
+    def add(self, value):
+        new_node = Node(value)
         if self.head == None:
             self.head = new_node
-            self.tail = self.head
+            self.tail = new_node
             self.length = 1
         else:
             self.tail.next = new_node
             self.tail = new_node
             self.length += 1
-
-    def prepend(self, data):
-        new_node = Node(data)
+            
+    def prepend(self, value):
+        new_node = Node(value)
         new_node.next = self.head
         self.head = new_node
+        if self.length == 0:
+            self.tail = new_node
         self.length += 1
-
-    def insert(self, index, data):
-        new_node = Node(data)
+    
+    def insert(self, index, value):
+        new_node = Node(value)
         if index >= self.length:
-            self.add(data)
+            self.add(value)
             return
         if index == 0:
-            self.prepend(data)
+            self.prepend(value)
             return
         leading = self.traverseToIndex(index-1)
-        holdingPointer = leading.next
-        new_node.next = holdingPointer
+        holding = leading.next
         leading.next = new_node
+        new_node.next = holding
         self.length += 1
-
+        
     def remove(self, index):
         if index >= self.length:
-            leading = self.traverseToIndex(self.length - 2)
-            # unwant = leading.next
-            # leading.next = unwant.next
-            leading.next = self.tail.next
-            self.tail = leading
-            self.length -= 1
-        elif index == 0:
-            self.head = self.head.next
-            self.length -= 1
-        else:
-            leading = self.traverseToIndex(index - 1)
+            leading = self.traverseToIndex(self.length-2)
             unwant = leading.next
             leading.next = unwant.next
-            self.length -= 1
-
+        elif index == 0:
+            self.head = self.head.next
+        else:
+            leading = self.traverseToIndex(index-1)
+            unwant = leading.next
+            leading.next = unwant.next
+        self.length -= 1
+        
     def reverse(self):
         prev = None
         currentNode = self.head
@@ -66,45 +67,38 @@ class LinkedList():
             prev = currentNode
             currentNode = n
         self.head = prev
-
-    def size(self):
-        return self.length
-
+        
     def traverseToIndex(self, index):
-        counter = 0
+        count = 0
         currentNode = self.head
-        while counter != index: # can't be counter <= index, why?
+        while count != index:
             currentNode = currentNode.next
-            counter += 1
+            count += 1
         return currentNode
-    
+        
     def printlist(self):
-        arr = []
+        myarr = []
         currentNode = self.head
-        while currentNode != None:
-            arr.append(currentNode.data)
+        while currentNode:
+            myarr.append(currentNode.value)
             currentNode = currentNode.next
-        return arr
-
+        return myarr
+        
 mylist = LinkedList()
+mylist.prepend(888)
 mylist.add(1)
 mylist.add(2)
 mylist.add(3)
 mylist.prepend(99)
 mylist.insert(99, 88)
 mylist.insert(0, 88)
-mylist.insert(3, 88)
-print(mylist.printlist(), mylist.size())
-print(mylist.head.data, mylist.tail.data)
+mylist.insert(4, 88)
+print(mylist.printlist())
 mylist.remove(88)
-print(mylist.printlist(), mylist.size())
-print(mylist.head.data, mylist.tail.data)
+print(mylist.printlist())
 mylist.remove(0)
-print(mylist.printlist(), mylist.size())
-print(mylist.head.data, mylist.tail.data)
-mylist.remove(2)
-print(mylist.printlist(), mylist.size())
-print(mylist.head.data, mylist.tail.data)
+print(mylist.printlist())
+mylist.remove(3)
+print(mylist.printlist())
 mylist.reverse()
-print(mylist.printlist(), mylist.size())
-print(mylist.head.data, mylist.tail.data)
+print(mylist.printlist())
