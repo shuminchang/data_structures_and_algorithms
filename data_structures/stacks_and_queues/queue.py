@@ -30,7 +30,6 @@ class Queue():
       self.first = new_node
       self.last = new_node
     else:
-      holding = self.last
       self.last.next = new_node
       self.last = new_node
     self.length += 1
