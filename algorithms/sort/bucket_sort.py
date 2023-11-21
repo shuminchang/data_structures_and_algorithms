@@ -21,14 +21,14 @@ def bucket_sort(arr):
         return arr
 
     # Calculate the range of each bucket
-    bucket_range = max(1, (max_val - min_val) // len(arr))
+    bucket_range = max_val - min_val
 
     # Create empty buckets
     buckets = [[] for _ in range(len(arr))]
 
     # Distribute elements into buckets
     for num in arr:
-        index = min((num - min_val) // bucket_range, len(buckets) - 1)
+        index = int((num - min_val) // bucket_range * len(arr) - 1)
         buckets[index].append(num)
 
     # Sort each bucket (using another sorting algorithm, e.g., insertion sort)
@@ -41,7 +41,7 @@ def bucket_sort(arr):
     return sorted_arr
 
 # Example usage
-arr = [4, 2, 7, 1, 3, 9, 5, 8, 6]
+arr = [4, 2, 7, 1, 0.3, 9, 5, 8, -0.6]
 sorted_arr = bucket_sort(arr)
 print("Original array:", arr)
 print("Sorted array:", sorted_arr)
