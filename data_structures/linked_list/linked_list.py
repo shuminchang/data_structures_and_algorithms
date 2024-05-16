@@ -8,9 +8,14 @@ class LinkedList:
         self.head = None
         self.tail = None
         self.length = 0
-        
+
     def __str__(self):
-        return str(self.__dict__)
+        values = []
+        current = self.head
+        while current:
+            values.append(str(current.value))
+            current = current.next
+        return ' -> '.join(values)
         
     def add(self, value):
         new_node = Node(value)
@@ -46,16 +51,18 @@ class LinkedList:
         self.length += 1
         
     def remove(self, index):
-        if index >= self.length:
-            leading = self.traverseToIndex(self.length-2)
-            unwant = leading.next
-            leading.next = unwant.next
+        if index < 0 or index >= self.length:
+            raise IndexError("Index out of bounds")
         elif index == 0:
             self.head = self.head.next
+            if self.length == 1:
+                self.tail = None
         else:
             leading = self.traverseToIndex(index-1)
             unwant = leading.next
             leading.next = unwant.next
+            if index == self.length - 1:
+                self.tail = leading
         self.length -= 1
         
     def reverse(self):
